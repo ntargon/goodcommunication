@@ -1,0 +1,23 @@
+[
+    {
+        "name": {
+            "first": "Naoki",
+            "last": "Tokunaga"
+        },
+        "email": "naoki@example.com"
+    }
+    {
+        "name": {
+            "first": "Amy",
+            "last": "Tokunaga"
+        },
+        "email": "amy@example.com"
+    }
+    {
+        "name": {
+            "first": "Tom",
+            "last": "Tokunaga"
+        },
+        "email": "tom@example.com"
+    }
+]

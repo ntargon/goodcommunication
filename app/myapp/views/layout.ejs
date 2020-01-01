@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>myApp</title>
+    </head>
+    <body>
+        <div>
+            NAVIGATION
+            <% if(loggedIn) { %>
+                <a href="/users/<%= currentUser._id %>">Logged in as <%= currentUser.fullName %></a>
+            <% }else{ %>
+                <a href="/users/login">Log in</a>
+            <% } %>
+        </div>
+            <%- body %>
+        <div>FOOTER</div>
+    </body>
+</html>
+
+
+
