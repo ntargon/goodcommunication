@@ -2,7 +2,8 @@
 
 const mongoose = require("mongoose"),
   User = require("./models/user"),
-  Lesson = require('./models/lesson');
+  Lesson = require('./models/lesson'),
+  Timetable = require('./models/timetable');
 
   mongoose.connect("mongodb://db:27017/myapp");
   mongoose.connection;
@@ -43,15 +44,35 @@ var users = [
 var lessons = [
   {
     type: "P",
+    startTime: new Date(2020, 0, 5, 16, 30),
+    capacity: 16
   },
   {
     type: "W",
+    startTime: new Date(2020, 0, 5, 17, 0),
+    capacity: 16
   },
   {
-    type: "R1"
+    type: "R1",
+    startTime: new Date(2020, 0, 5, 17, 50),
+    capacity: 16
   },
   {
-    type: "R2"
+    type: "R2",
+    startTime: new Date(2020, 0, 5, 18, 20),
+    capacity: 16
+  }
+]
+
+// TIMETABLES
+var timetables = [
+  {
+    name: "School 1",
+    sunday: [
+      {
+        type: "R1"
+      }
+    ]
   }
 ]
 
@@ -60,6 +81,7 @@ let createModel = (Model, model_data, resolve) => {
         .then(m => {
             console.log("CREATED");
             resolve(m);
+            console.log(m);
         });
 };
 
@@ -96,6 +118,22 @@ lessons.reduce(
     );
   },
   Lesson.remove({})
+    .exec()
+    .then(() => {
+      console.log("Data is empty!");
+    })
+);
+
+timetables.reduce(
+  (promiseChain, next) => {
+    return promiseChain.then(
+      () =>
+        new Promise(resolve => {
+          createModel(Timetable, next, resolve);
+        })
+    );
+  },
+  Timetable.remove({})
     .exec()
     .then(() => {
       console.log("Data is empty!");
