@@ -19,7 +19,8 @@ const mongoose = require('mongoose'),
         {
             name: {
                 type: String,
-                required: true
+                required: true,
+                unique: true
             },
             sunday: [
                 {

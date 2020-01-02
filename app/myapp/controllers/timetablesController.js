@@ -2,10 +2,9 @@
 
 const Timetable = require('../models/timetable');
 
-let getLessonParams = body => {
+let getTimetableParams = body => {
     return {
-        type: body.type,
-        capacity: body.capacity
+        name: body.name
     };
 };
 
@@ -13,9 +12,9 @@ module.exports = {
     index: (req, res, next) => {
         Timetable.find({})
             .then(timetables => {
-                timetables.sort((a,b) => {
-                    return a.startTime.h !== b.startTime.h ? a.startTime.h - b.startTime.h : a.startTime.m - b.startTime.m;
-                })
+                // timetables.sort((a,b) => {
+                //     return a.startTime.h !== b.startTime.h ? a.startTime.h - b.startTime.h : a.startTime.m - b.startTime.m;
+                // })
                 res.locals.timetables = timetables;
                 next();
             })
@@ -42,42 +41,65 @@ module.exports = {
 	showView: (req, res) => {
 		res.render("timetables/show");
     },
-    // new: (req, res) => {
-    //     res.render("users/new");
-    // },
-	// create: (req, res, next) => {
-    //     if(req.skip) next();
+    new: (req, res) => {
+        res.render("timetables/new");
+    },
+	create: (req, res, next) => {
+		Timetable.create(getTimetableParams(req.body))
+			.then(timetable => {
+				res.locals.redirect = "/timetables";
+				res.locals.timetable = timetable;
+				next();
+			})
+			.catch(error => {
+				console.log(`Error saving timetable: ${error.message}`);
+				next(error);
+			});
+	},
+	redirectView: (req, res, next) => {
+		let redirectPath = res.locals.redirect;
+		if(redirectPath) res.redirect(redirectPath);
+		else next();
+    },
+    edit: (req, res, next) => {
+        let timetableId = req.params.id;
+        Timetable.findById(timetableId)
+            .then(timetable => {
+                res.locals.timetable = timetable;
+                res.render('timetables/edit');
+            })
+            .catch(error => {
+				console.log(`Error finding timetable: ${error.message}`);
+                next(error);
+            })
+    },
+    deleteLesson: (req, res, next) => {
+        let timetableId = req.params.id;
+        let index = req.query.index;
+        let dow = req.query.dow;
 
-    //     let newUser = new User( getUserParams(req.body) );
-    //     User.register(newUser, req.body.password, (error, user) => {
-    //         if(user){
-    //             req.flash("success", "created successfully");
-    //             res.locals.redirect = '/users';
-    //             passport.authenticate('local')(req, res, next);
-    //         }else{
-    //             req.flash("error", "error");
-    //             res.locals.redirect = '/users/new';
-    //             next();
-    //         }
-    //     });
-    // },
-	// redirectView: (req, res, next) => {
-	// 	let redirectPath = res.locals.redirect;
-	// 	if(redirectPath) res.redirect(redirectPath);
-	// 	else next();
-    // },
-    // edit: (req, res, next) => {
-    //     let userId = req.params.id;
-    //     User.findById(userId)
-    //         .then(user => {
-    //             res.locals.user = user;
-    //             res.render('users/edit');
-    //         })
-    //         .catch(error => {
-	// 			console.log(`Error finding user: ${error.message}`);
-    //             next(error);
-    //         })
-    // },
+        Timetable.findById(timetableId)
+            .then(timetable => {
+                res.locals.redirect = `/timetables/${timetableId}/edit`;
+                timetable[dow].splice(index, 1);
+                timetable.save((error, timetable) => {
+                    if(error){
+                        console.log(`Error updating timetable: ${error.message}`);
+                        next(error);
+                    }else{
+                        next();
+                    }
+                });
+            })
+            .catch(error => {
+                res.locals.redirect = '/timetables';
+                next(error);
+            })
+
+        Timetable.findByIdAndUpdate(timetableId, {
+
+        })
+    }
 	// update: (req, res, next) => {
 	// 	let userId = req.params.id;
 
