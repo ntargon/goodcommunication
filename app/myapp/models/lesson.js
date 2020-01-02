@@ -11,6 +11,15 @@ const mongoose = require('mongoose'),
             },
             startTime: {
                 type: Date
+            },
+            capacity: {
+                type: Number,
+                required: true
+            },
+            numberOfPaticipants: {
+                type: Number,
+                required: true,
+                default: 0
             }
         }
     );

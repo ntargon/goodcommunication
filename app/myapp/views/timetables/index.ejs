@@ -1,0 +1,5 @@
+<h1>Timetables</h1>
+
+<% timetables.forEach(timetable => { %>
+    <li><a href="/timetables/<%= timetable._id %>"><%= timetable.name %></a></li>
+<% }); %>

@@ -1,0 +1,6 @@
+<h1>Lessons</h1>
+
+<% lessons.forEach(lesson => { %>
+    <li>Lesson Type: <a href="/lessons/<%= lesson._id %>"><%= lesson.type %></a></li>
+    <li>Start Time: <%= lesson.startTime %></li>
+<% }); %>
