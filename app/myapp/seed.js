@@ -71,6 +71,15 @@ var timetables = [
     sunday: [
       {
         type: "R1"
+      },
+      {
+        type: "P"
+      },
+      {
+        type: "W"
+      },
+      {
+        type: "R2"
       }
     ]
   }
