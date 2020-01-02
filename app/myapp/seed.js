@@ -1,7 +1,8 @@
 "use strict";
 
 const mongoose = require("mongoose"),
-  User = require("./models/user");
+  User = require("./models/user"),
+  Lesson = require('./models/lesson');
 
   mongoose.connect("mongodb://db:27017/myapp");
   mongoose.connection;
@@ -38,6 +39,22 @@ var users = [
     },
 ]
 
+// LESSONS
+var lessons = [
+  {
+    type: "P",
+  },
+  {
+    type: "W",
+  },
+  {
+    type: "R1"
+  },
+  {
+    type: "R2"
+  }
+]
+
 let createModel = (Model, model_data, resolve) => {
     Model.create(model_data)
         .then(m => {
@@ -69,3 +86,18 @@ users.reduce(
     })
 );
 
+lessons.reduce(
+  (promiseChain, next) => {
+    return promiseChain.then(
+      () =>
+        new Promise(resolve => {
+          createModel(Lesson, next, resolve);
+        })
+    );
+  },
+  Lesson.remove({})
+    .exec()
+    .then(() => {
+      console.log("Data is empty!");
+    })
+);
