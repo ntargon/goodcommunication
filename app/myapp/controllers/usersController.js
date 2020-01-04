@@ -127,5 +127,11 @@ module.exports = {
         }else{
             res.redirect('/users/login');
         }
+    },
+    logout: (req, res, next) => {
+        req.logout();
+        req.flash("success", "You have been logged out!");
+        res.locals.redirect = "/users/login";
+        next();
     }
 }

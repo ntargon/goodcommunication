@@ -9,6 +9,7 @@ router.get('/new', usersController.new);
 router.post('/create', usersController.create, usersController.authenticate, usersController.redirectView);
 router.get('/login', usersController.login);
 router.post('/login', usersController.authenticate);
+router.get('/logout', usersController.logout, usersController.redirectView);
 router.get('/:id', usersController.show, usersController.showView);
 router.get('/:id/edit', usersController.checkPermission, usersController.edit);
 router.put('/:id/update', usersController.checkPermission, usersController.update, usersController.redirectView);
