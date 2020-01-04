@@ -22,6 +22,11 @@ const mongoose = require('mongoose'),
                 required: true,
                 lowercase: true,
                 unique: true
+            },
+            roll: {
+                type: String,
+                required: true,
+                default: "student"
             }
         }
     );

@@ -108,7 +108,7 @@ module.exports = {
 			});
     },
 	authenticate: passport.authenticate("local", {
-		failureRedirect: "/users/login",
+		failureRedirect: "/login",
 		failureFlash: "Failed to login.",
 		successRedirect: "/",
 		successFlash: "Logged in!"
@@ -133,5 +133,10 @@ module.exports = {
         req.flash("success", "You have been logged out!");
         res.locals.redirect = "/users/login";
         next();
-    }
+    },
+    // checkAdmin: (req, res, next) => {
+    //     if(res.locals.loggedIn){
+
+    //     }
+    // }
 }

@@ -11,6 +11,14 @@ const mongoose = require("mongoose"),
 // USERS
 var users = [
     {
+      name: {
+        first: "admin",
+        last: "admin"
+      },
+      email: "admin@example.com",
+      roll: "admin"
+    },
+    {
         name: {
             first: "Naoki",
             last: "Tokunaga"
