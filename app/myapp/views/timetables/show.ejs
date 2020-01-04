@@ -6,7 +6,7 @@
     <div>
         <h3><%= day %></h3>
         <% timetable[day].forEach(lesson => { %>
-            <li><%= `${lesson.type}: ${('0' + lesson.startTime.h).slice(-2)}:${('0' + lesson.startTime.m).slice(-2)} - ${('0' + lesson.endTime.h).slice(-2)}:${('0' + lesson.endTime.m).slice(-2)}` %></li>
+            <li><%= `${lesson.type}: ${lesson.startTime} - ${lesson.endTime}` %></li>
         <% }) %>
     </div>
 <% }) %>

@@ -52,22 +52,30 @@ var users = [
 var lessons = [
   {
     type: "P",
-    startTime: new Date(2020, 0, 5, 16, 30),
+    startTime: "16:30",
+    endTime: "17:00",
+    date: "2020:01:01",
     capacity: 16
   },
   {
     type: "W",
-    startTime: new Date(2020, 0, 5, 17, 0),
+    startTime: "16:30",
+    endTime: "17:00",
+    date: "2020:01:01",
     capacity: 16
   },
   {
     type: "R1",
-    startTime: new Date(2020, 0, 5, 17, 50),
+    startTime: "16:30",
+    endTime: "17:00",
+    date: "2020:01:01",
     capacity: 16
   },
   {
     type: "R2",
-    startTime: new Date(2020, 0, 5, 18, 20),
+    startTime: "16:30",
+    endTime: "17:00",
+    date: "2020:01:01",
     capacity: 16
   }
 ]
@@ -78,7 +86,9 @@ var timetables = [
     name: "School 1",
     sunday: [
       {
-        type: "R1"
+        type: "R1",
+        startTime: "17:00",
+        endTime: "17:45"
       },
       {
         type: "P"

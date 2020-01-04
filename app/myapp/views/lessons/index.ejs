@@ -2,5 +2,7 @@
 
 <% lessons.forEach(lesson => { %>
     <li>Lesson Type: <a href="/lessons/<%= lesson._id %>"><%= lesson.type %></a></li>
+    <li>Date: <%= lesson.date %></li>
     <li>Start Time: <%= lesson.startTime %></li>
+    <li>End Time: <%= lesson.endTime %></li>
 <% }); %>

@@ -1,5 +1,11 @@
 'use strict';
 
+let time = {
+    type: String,
+    required: true,
+    default: "00:00"
+};
+
 const mongoose = require('mongoose'),
     { Schema } = mongoose,
     lessonSchema = new Schema(
@@ -9,8 +15,12 @@ const mongoose = require('mongoose'),
                 trim: true,
                 required: true
             },
-            startTime: {
-                type: Date
+            startTime: time,
+            endTime: time,
+            date: {
+                type: String,
+                required: true,
+                default: "2000:01:01"
             },
             capacity: {
                 type: Number,

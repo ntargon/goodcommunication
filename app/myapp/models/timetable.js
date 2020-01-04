@@ -1,16 +1,21 @@
 'use strict';
 
+// let time = {
+//     h: {
+//         type: Number,
+//         required: true,
+//         default: 0
+//     },
+//     m: {
+//         type: Number,
+//         required: true,
+//         default: 0
+//     }
+// }
 let time = {
-    h: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    m: {
-        type: Number,
-        required: true,
-        default: 0
-    }
+    type: String,
+    required: true,
+    default: "00:00"
 }
 
 const mongoose = require('mongoose'),
