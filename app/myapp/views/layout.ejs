@@ -12,6 +12,14 @@
                 <a href="/users/login">Log in</a>
             <% } %>
         </div>
+        <% if(flashMessages){ %>
+            <% if(flashMessages.success){ %>
+                <div class="flash success"><%= flashMessages.success %></div>
+            <% }else if(flashMessages.error){ %>
+                <div class="flash error"><%= flashMessages.error %></div>
+            <% } %>
+        <% } %>
+
             <%- body %>
         <div>FOOTER</div>
     </body>

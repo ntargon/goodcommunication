@@ -4,7 +4,7 @@
 
 <% let dow = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
 
-<form action="/timetables/<%= timetable._id%>/update?_method=put" method="POST">
+<form action="/timetables/<%= timetable._id%>/update?_method=PUT" method="POST">
     <p>Name: <input type="text" name="name" value="<%= timetable.name%>"></p>
     <% dow.forEach(day => { %>
         <div>

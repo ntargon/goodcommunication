@@ -107,18 +107,18 @@ module.exports = {
 				next(error);
 			});
     },
-	// delete: (req, res, next) => {
-	// 	let userId = req.params.id;
-	// 	User.findByIdAndRemove(userId)
-	// 		.then(() => {
-	// 			res.locals.redirect = "/users";
-	// 			next();
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(`Error deleting user by ID: ${error.message}`);
-	// 			next();
-	// 		});
-    // },
+	delete: (req, res, next) => {
+		let timetableId = req.params.id;
+		Timetable.findByIdAndRemove(timetableId)
+			.then(() => {
+				res.locals.redirect = "/timetables";
+				next();
+			})
+			.catch(error => {
+				console.log(`Error deleting timetable by ID: ${error.message}`);
+				next();
+			});
+    },
 	// authenticate: passport.authenticate("local", {
 	// 	failureRedirect: "/users/login",
 	// 	failureFlash: "Failed to login.",

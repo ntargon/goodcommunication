@@ -7,13 +7,9 @@ const timetablesController = require('../controllers/timetablesController');
 router.get('/', timetablesController.index, timetablesController.indexView);
 router.get('/new', timetablesController.new);
 router.post('/create', timetablesController.create, timetablesController.redirectView);
-// router.get('/login', usersController.login);
-// router.post('/login', usersController.authenticate);
 router.get('/:id', timetablesController.show, timetablesController.showView);
 router.get('/:id/edit', timetablesController.edit);
-// router.get('/:id/delete_lesson', timetablesController.deleteLesson, timetablesController.redirectView);
 router.put('/:id/update', timetablesController.update, timetablesController.redirectView);
-// router.delete('/:id/delete', usersController.checkPermission, usersController.delete, usersController.redirectView);
-// router.put('/:id/update', usersController)
+router.delete('/:id/delete', timetablesController.delete, timetablesController.redirectView);
 
 module.exports = router;
