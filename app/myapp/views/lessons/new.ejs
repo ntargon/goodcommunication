@@ -1,0 +1,14 @@
+<h1>New Lesson</h1>
+
+<form action="/lessons/create" method="POST">
+    Type: <input type="text" name="type" required><br>
+    <input type="number" name="date_y" min="0" max="9999" required>/                
+    <input type="number" name="date_m" min="1" max="12" required>/                
+    <input type="number" name="date_d" min="1" max="31" required><br>                
+    <input type="number" name="startTime_h" min="0" max="23" required>:                
+    <input type="number" name="startTime_m" min="0" max="59" required>-                
+    <input type="number" name="endTime_h" min="0" max="23" required>:                
+    <input type="number" name="endTime_m" min="0" max="59" required><br>
+    Capacity: <input type="number" name="capacity" min="0" required>                
+    <button type="submit">Create</button>
+</form>

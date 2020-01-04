@@ -11,3 +11,6 @@
 <%= lesson.capacity %>
 <h4>The Number of Paticipants</h4>
 <%= lesson.numberOfPaticipants %>
+
+<a href="/lessons/<%= lesson._id %>/edit">Edit</a>
+<a href="/lessons/<%= lesson._id %>/delete?_method=DELETE" onclick="return alert('Are you sure to delete this record?')">Delete</a>

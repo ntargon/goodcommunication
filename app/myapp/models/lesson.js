@@ -24,7 +24,8 @@ const mongoose = require('mongoose'),
             },
             capacity: {
                 type: Number,
-                required: true
+                required: true,
+                default: 12
             },
             numberOfPaticipants: {
                 type: Number,

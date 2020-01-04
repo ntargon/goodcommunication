@@ -2,10 +2,18 @@
 
 const Lesson = require('../models/lesson');
 
+let timeString = (h,m) => {return ("00"+h).slice(-2) + ":" + ("00"+m).slice(-2); };
+let dateString = (y,m,d) => {
+    return [("0000"+y).slice(-4), ("00"+m).slice(-2), ("00"+d).slice(-2)].join(':');
+}
+
 let getLessonParams = body => {
     return {
         type: body.type,
-        capacity: body.capacity
+        capacity: body.capacity,
+        startTime: timeString(body.startTime_h, body.startTime_m),
+        endTime: timeString(body.endTime_h, body.endTime_m),
+        date: dateString(body.date_y, body.date_m, body.date_d)
     };
 };
 
@@ -39,70 +47,69 @@ module.exports = {
 	showView: (req, res) => {
 		res.render("lessons/show");
     },
-    // new: (req, res) => {
-    //     res.render("users/new");
-    // },
-	// create: (req, res, next) => {
-    //     if(req.skip) next();
+    new: (req, res) => {
+        res.render("lessons/new");
+    },
+	create: (req, res, next) => {
+		Lesson.create(getLessonParams(req.body))
+			.then(lesson => {
+				res.locals.redirect = "/lessons";
+				res.locals.lesson = lesson;
+				next();
+			})
+			.catch(error => {
+				console.log(`Error saving lesson: ${error.message}`);
+				next(error);
+			});
+	},
+	redirectView: (req, res, next) => {
+		let redirectPath = res.locals.redirect;
+		if(redirectPath) res.redirect(redirectPath);
+		else next();
+    },
+    edit: (req, res, next) => {
+        let lessonId = req.params.id;
+        Lesson.findById(lessonId)
+            .then(lesson => {
+                res.locals.lesson = lesson;
+                // let dateDigits = (str) => {let items = str.split(':'); return {y: items[0], m: items[1], d: items[2]}; };
+                // console.log(lesson.date);
+                // console.log(dateDigits(lesson.date));
+                res.render('lessons/edit');
+            })
+            .catch(error => {
+				console.log(`Error finding lesson: ${error.message}`);
+                next(error);
+            })
+    },
+	update: (req, res, next) => {
+        let lessonId = req.params.id;
 
-    //     let newUser = new User( getUserParams(req.body) );
-    //     User.register(newUser, req.body.password, (error, user) => {
-    //         if(user){
-    //             req.flash("success", "created successfully");
-    //             res.locals.redirect = '/users';
-    //             passport.authenticate('local')(req, res, next);
-    //         }else{
-    //             req.flash("error", "error");
-    //             res.locals.redirect = '/users/new';
-    //             next();
-    //         }
-    //     });
-    // },
-	// redirectView: (req, res, next) => {
-	// 	let redirectPath = res.locals.redirect;
-	// 	if(redirectPath) res.redirect(redirectPath);
-	// 	else next();
-    // },
-    // edit: (req, res, next) => {
-    //     let userId = req.params.id;
-    //     User.findById(userId)
-    //         .then(user => {
-    //             res.locals.user = user;
-    //             res.render('users/edit');
-    //         })
-    //         .catch(error => {
-	// 			console.log(`Error finding user: ${error.message}`);
-    //             next(error);
-    //         })
-    // },
-	// update: (req, res, next) => {
-	// 	let userId = req.params.id;
-
-	// 	User.findByIdAndUpdate(userId, {
-	// 		$set: getUserParams(req.body)
-	// 	})
-	// 		.then(user => {
-	// 			res.locals.redirect = `/users/${userId}`;
-	// 			res.locals.user = user;
-	// 			next();
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(`Error updating user by ID: ${error.message}`);
-	// 			next(error);
-	// 		});
-    // },
-	// delete: (req, res, next) => {
-	// 	let userId = req.params.id;
-	// 	User.findByIdAndRemove(userId)
-	// 		.then(() => {
-	// 			res.locals.redirect = "/users";
-	// 			next();
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(`Error deleting user by ID: ${error.message}`);
-	// 			next();
-	// 		});
-    // },
+		Lesson.findByIdAndUpdate(lessonId, {
+			$set: getLessonParams(req.body)
+		})
+			.then(lesson => {
+				res.locals.redirect = `/lessons/${lessonId}`;
+				res.locals.lesson = lesson;
+				next();
+			})
+			.catch(error => {
+				console.log(`Error updating lesson by ID: ${error.message}`);
+				next(error);
+			});
+    },
+	delete: (req, res, next) => {
+		let lessonId = req.params.id;
+		Lesson.findByIdAndRemove(lessonId)
+			.then(() => {
+				res.locals.redirect = "/lessons";
+				next();
+			})
+			.catch(error => {
+				console.log(`Error deleting lesson by ID: ${error.message}`);
+				next();
+			});
+    },
 	// authenticate: passport.authenticate("local", {
 	// 	failureRedirect: "/users/login",
 	// 	failureFlash: "Failed to login.",
