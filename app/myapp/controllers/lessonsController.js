@@ -1,19 +1,16 @@
 'use strict';
 
-const Lesson = require('../models/lesson');
+const Lesson = require('../models/lesson'),
+    helpers = require('../helperss');
 
-let timeString = (h,m) => {return ("00"+h).slice(-2) + ":" + ("00"+m).slice(-2); };
-let dateString = (y,m,d) => {
-    return [("0000"+y).slice(-4), ("00"+m).slice(-2), ("00"+d).slice(-2)].join(':');
-}
 
 let getLessonParams = body => {
     return {
         type: body.type,
         capacity: body.capacity,
-        startTime: timeString(body.startTime_h, body.startTime_m),
-        endTime: timeString(body.endTime_h, body.endTime_m),
-        date: dateString(body.date_y, body.date_m, body.date_d)
+        startTime: helpers.timeString(body.startTime_h, body.startTime_m),
+        endTime: helpers.timeString(body.endTime_h, body.endTime_m),
+        date: helpers.dateString(body.date_y, body.date_m, body.date_d)
     };
 };
 

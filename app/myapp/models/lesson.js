@@ -35,4 +35,4 @@ const mongoose = require('mongoose'),
         }
     );
 
-module.exports = mongoose.model('lesson', lessonSchema);
+module.exports = mongoose.model('Lesson', lessonSchema);

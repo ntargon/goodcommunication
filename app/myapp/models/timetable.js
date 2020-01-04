@@ -1,17 +1,5 @@
 'use strict';
 
-// let time = {
-//     h: {
-//         type: Number,
-//         required: true,
-//         default: 0
-//     },
-//     m: {
-//         type: Number,
-//         required: true,
-//         default: 0
-//     }
-// }
 let time = {
     type: String,
     required: true,
@@ -107,4 +95,4 @@ const mongoose = require('mongoose'),
         }
     );
 
-module.exports = mongoose.model('timetable', timetableSchema);
+module.exports = mongoose.model('Timetable', timetableSchema);

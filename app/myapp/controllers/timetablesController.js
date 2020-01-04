@@ -1,8 +1,7 @@
 'use strict';
 
-const Timetable = require('../models/timetable');
-
-let timeString = (h,m) => {return ("00"+h).slice(-2) + ":" + ("00"+m).slice(-2); };
+const Timetable = require('../models/timetable'),
+    helpers = require('../helperss');
 
 
 let getTimetableParams = body => {
@@ -14,16 +13,8 @@ let getTimetableParams = body => {
         for(let i=0; i<n; ++i){
             let lesson = {
                 type: body[`type_${day}`][i],
-                // startTime: {
-                //     h: body[`startTime_h_${day}`][i],
-                //     m: body[`startTime_m_${day}`][i]
-                // },
-                // endTime: {
-                //     h: body[`endTime_h_${day}`][i],
-                //     m: body[`endTime_m_${day}`][i]
-                // }
-                startTime: timeString(body[`startTime_h_${day}`][i], body[`startTime_m_${day}`][i]),
-                endTime: timeString(body[`endTime_h_${day}`][i], body[`endTime_m_${day}`][i]),                
+                startTime: helpers.timeString(body[`startTime_h_${day}`][i], body[`startTime_m_${day}`][i]),
+                endTime: helpers.timeString(body[`endTime_h_${day}`][i], body[`endTime_m_${day}`][i]),                
             };
             params[day].push(lesson);
         }

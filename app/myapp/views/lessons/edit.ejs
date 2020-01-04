@@ -1,17 +1,14 @@
-<% let dateDigits = (str) => {let items = str.split(':'); return {y: items[0], m: items[1], d: items[2]}; }; %>
-<% let timeDigits = (str) => {let items = str.split(':'); return {h: items[0], m: items[1]};}; %>
-
 <h1>Edit Lesson</h1>
 
 <form action="/lessons/<%= lesson._id %>/update?_method=PUT" method="POST">
     Type: <input type="text" name="type" required value="<%= lesson.type%>"><br>
-    <input type="number" name="date_y" min="0" max="9999" required value="<%= dateDigits(lesson.date).y%>">/                
-    <input type="number" name="date_m" min="1" max="12" required value="<%= dateDigits(lesson.date).m%>">/                
-    <input type="number" name="date_d" min="1" max="31" required value="<%= dateDigits(lesson.date).d%>"><br>                
-    <input type="number" name="startTime_h" min="0" max="23" required value="<%= timeDigits(lesson.startTime).h%>">:                
-    <input type="number" name="startTime_m" min="0" max="59" required value="<%= timeDigits(lesson.startTime).m%>">-                
-    <input type="number" name="endTime_h" min="0" max="23" required value="<%= timeDigits(lesson.endTime).h%>">:                
-    <input type="number" name="endTime_m" min="0" max="59" required value="<%= timeDigits(lesson.endTime).m%>"><br>
+    <input type="number" name="date_y" min="0" max="9999" required value="<%= helpers.dateDigits(lesson.date).y%>">/                
+    <input type="number" name="date_m" min="1" max="12" required value="<%= helpers.dateDigits(lesson.date).m%>">/                
+    <input type="number" name="date_d" min="1" max="31" required value="<%= helpers.dateDigits(lesson.date).d%>"><br>                
+    <input type="number" name="startTime_h" min="0" max="23" required value="<%= helpers.timeDigits(lesson.startTime).h%>">:                
+    <input type="number" name="startTime_m" min="0" max="59" required value="<%= helpers.timeDigits(lesson.startTime).m%>">-                
+    <input type="number" name="endTime_h" min="0" max="23" required value="<%= helpers.timeDigits(lesson.endTime).h%>">:                
+    <input type="number" name="endTime_m" min="0" max="59" required value="<%= helpers.timeDigits(lesson.endTime).m%>"><br>
     Capacity: <input type="number" name="capacity" min="0" required value="<%= lesson.capacity%>">                
     <button type="submit">Update</button>
 </form>

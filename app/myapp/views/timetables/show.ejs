@@ -1,8 +1,7 @@
 <h1>Timetable</h1>
 <h2>Timetable of <%= timetable.name %></h2>
-<% let dow = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
 
-<% dow.forEach(day => { %>
+<% helpers.dow.forEach(day => { %>
     <div>
         <h3><%= day %></h3>
         <% timetable[day].forEach(lesson => { %>

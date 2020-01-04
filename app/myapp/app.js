@@ -61,6 +61,9 @@ app.use((req, res, next) => {
 	next();
 });
 
+// helper
+app.locals.helpers = require('./helpers');
+
 
 
 // router

@@ -2,11 +2,9 @@
 
 <h2>Timetable of <%= timetable.name %></h2>
 
-<% let dow = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
-
 <form action="/timetables/<%= timetable._id%>/update?_method=PUT" method="POST">
     <p>Name: <input type="text" name="name" value="<%= timetable.name%>"></p>
-    <% dow.forEach(day => { %>
+    <% helper.dow.forEach(day => { %>
         <div>
             <h3><%= day %></h3>
             <%- include('./_editForm', {day: day, timetable: timetable}) %>
