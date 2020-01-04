@@ -1,11 +1,18 @@
 <h1>Timetable</h1>
 <h2>Timetable of <%= timetable.name %></h2>
-<h3>Sunday</h3>
-<div>
-    <% timetable.sunday.forEach(lesson => { %>
-        <li><%= `${lesson.type}: ${('0' + lesson.startTime.h).slice(-2)}:${('0' + lesson.startTime.m).slice(-2)} - ${('0' + lesson.endTime.h).slice(-2)}:${('0' + lesson.endTime.m).slice(-2)}` %></li>
-    <% }) %>
-</div>
+<% let dow = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']; %>
+
+<% dow.forEach(day => { %>
+    <div>
+        <h3><%= day %></h3>
+        <% timetable[day].forEach(lesson => { %>
+            <li><%= `${lesson.type}: ${('0' + lesson.startTime.h).slice(-2)}:${('0' + lesson.startTime.m).slice(-2)} - ${('0' + lesson.endTime.h).slice(-2)}:${('0' + lesson.endTime.m).slice(-2)}` %></li>
+        <% }) %>
+    </div>
+<% }) %>
+
+
+<a href="/timetables/<%= timetable._id%>/edit">edit</a>
 
 <!-- <% if(currentUser && currentUser._id.equals(user._id)){ %>
     <a href="/users/<%= user._id %>/delete?_method=DELETE" onclick="return confirm('Are you sure you want to delete this record?')">delete</a>

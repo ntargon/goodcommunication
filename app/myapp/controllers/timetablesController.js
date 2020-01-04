@@ -3,9 +3,27 @@
 const Timetable = require('../models/timetable');
 
 let getTimetableParams = body => {
-    return {
-        name: body.name
-    };
+    let dow = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    let params = {name: body.name};
+    dow.forEach(day => {
+        params[day] = [];
+        let n = body[`type_${day}`] ? body[`type_${day}`].length : 0;
+        for(let i=0; i<n; ++i){
+            let lesson = {
+                type: body[`type_${day}`][i],
+                startTime: {
+                    h: body[`startTime_h_${day}`][i],
+                    m: body[`startTime_m_${day}`][i]
+                },
+                endTime: {
+                    h: body[`endTime_h_${day}`][i],
+                    m: body[`endTime_m_${day}`][i]
+                }
+            };
+            params[day].push(lesson);
+        }
+    })
+    return params;
 };
 
 module.exports = {
@@ -73,49 +91,22 @@ module.exports = {
                 next(error);
             })
     },
-    deleteLesson: (req, res, next) => {
+	update: (req, res, next) => {
         let timetableId = req.params.id;
-        let index = req.query.index;
-        let dow = req.query.dow;
 
-        Timetable.findById(timetableId)
-            .then(timetable => {
-                res.locals.redirect = `/timetables/${timetableId}/edit`;
-                timetable[dow].splice(index, 1);
-                timetable.save((error, timetable) => {
-                    if(error){
-                        console.log(`Error updating timetable: ${error.message}`);
-                        next(error);
-                    }else{
-                        next();
-                    }
-                });
-            })
-            .catch(error => {
-                res.locals.redirect = '/timetables';
-                next(error);
-            })
-
-        Timetable.findByIdAndUpdate(timetableId, {
-
-        })
-    }
-	// update: (req, res, next) => {
-	// 	let userId = req.params.id;
-
-	// 	User.findByIdAndUpdate(userId, {
-	// 		$set: getUserParams(req.body)
-	// 	})
-	// 		.then(user => {
-	// 			res.locals.redirect = `/users/${userId}`;
-	// 			res.locals.user = user;
-	// 			next();
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(`Error updating user by ID: ${error.message}`);
-	// 			next(error);
-	// 		});
-    // },
+		Timetable.findByIdAndUpdate(timetableId, {
+			$set: getTimetableParams(req.body)
+		})
+			.then(timetable => {
+				res.locals.redirect = `/timetables/${timetableId}`;
+				res.locals.timetable = timetable;
+				next();
+			})
+			.catch(error => {
+				console.log(`Error updating timetable by ID: ${error.message}`);
+				next(error);
+			});
+    },
 	// delete: (req, res, next) => {
 	// 	let userId = req.params.id;
 	// 	User.findByIdAndRemove(userId)

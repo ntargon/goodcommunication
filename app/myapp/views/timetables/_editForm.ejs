@@ -1,0 +1,13 @@
+<input type="button" value="＋" class="add" day="<%= day%>">
+<div class="lesson-list">
+    <% timetable[day].forEach(lesson => { %>
+        <div day="<%= day%>">
+            <input type="text" name="type_<%= day%>" value="<%= lesson.type%>" required>
+            <input type="number" name="startTime_h_<%= day%>" min="0" max="23" value="<%= lesson.startTime.h%>" required>:                
+            <input type="number" name="startTime_m_<%= day%>" min="0" max="59" value="<%= lesson.startTime.m%>" required>-                
+            <input type="number" name="endTime_h_<%= day%>" min="0" max="23" value="<%= lesson.endTime.h%>" required>:                
+            <input type="number" name="endTime_m_<%= day%>" min="0" max="59" value="<%= lesson.endTime.m%>" required>                
+            <input type="button" value="-" class="del">
+        </div>
+    <% }) %>
+</div>

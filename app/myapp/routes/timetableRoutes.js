@@ -11,8 +11,8 @@ router.post('/create', timetablesController.create, timetablesController.redirec
 // router.post('/login', usersController.authenticate);
 router.get('/:id', timetablesController.show, timetablesController.showView);
 router.get('/:id/edit', timetablesController.edit);
-router.get('/:id/delete_lesson', timetablesController.deleteLesson, timetablesController.redirectView);
-// router.put('/:id/update', usersController.checkPermission, usersController.update, usersController.redirectView);
+// router.get('/:id/delete_lesson', timetablesController.deleteLesson, timetablesController.redirectView);
+router.put('/:id/update', timetablesController.update, timetablesController.redirectView);
 // router.delete('/:id/delete', usersController.checkPermission, usersController.delete, usersController.redirectView);
 // router.put('/:id/update', usersController)
 
