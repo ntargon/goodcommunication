@@ -1,4 +1,10 @@
 <h1>Lesson</h1>
+<h2>Students</h2>
+<div>
+    <% currentUser.students.forEach((student, index) => { %>
+        <input type="radio" class="student" name="student" value="<%= student._id %>" <%= index === 0 ? "checked" : "" %>><%= student.fullName %>
+    <% }) %>
+</div>
 <h4>Lesson Type</h4>
 <%= lesson.type %>
 <h4>Date</h4>
@@ -9,8 +15,12 @@
 <%= lesson.endTime %>
 <h4>Capacity</h4>
 <%= lesson.capacity %>
-<h4>The Number of Paticipants</h4>
-<%= lesson.numberOfPaticipants %>
+<h4>The Number of Students</h4>
+<%= lesson.students.length %>
+<h5>Students List</h5>
+<% lesson.students.forEach(student => { %>
+    <li><a href="/students/<%= student._id %>"><%= student.fullName %></a></li>
+<% }) %>
 
 <a href="/lessons/<%= lesson._id %>/edit">Edit</a>
 <a href="/lessons/<%= lesson._id %>/delete?_method=DELETE" onclick="return alert('Are you sure to delete this record?')">Delete</a>

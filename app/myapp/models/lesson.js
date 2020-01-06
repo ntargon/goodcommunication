@@ -27,11 +27,12 @@ const mongoose = require('mongoose'),
                 required: true,
                 default: 12
             },
-            numberOfPaticipants: {
-                type: Number,
-                required: true,
-                default: 0
-            }
+            // numberOfPaticipants: {
+            //     type: Number,
+            //     required: true,
+            //     default: 0
+            // }
+            students: [{type: Schema.Types.ObjectId, ref: "Student"}],
         }
     );
 

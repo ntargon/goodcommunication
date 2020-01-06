@@ -3,6 +3,10 @@
 <%= student.fullName %>
 <h4>Birthday</h4>
 <%= student.birthday %>
+<h4>Lessons</h4>
+<% student.lessons.forEach(lesson => { %>
+    <li><a href="/lessons/<= lesson._id %>"><%= lesson.type %></a></li>
+<% }) %>
 <% if(student.user) { %>
 <p>User: <a href="/users/<%= student.user._id %>"><%= student.user.fullName %></a></p>
 <% } %>

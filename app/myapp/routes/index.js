@@ -5,13 +5,15 @@ const userRouter = require('./userRoutes'),
   timetableRouter = require('./timetableRoutes'),
   permissionsController = require('../controllers/permissionsController.js'),
   usersController = require('../controllers/usersController'),
-  studentRouter = require('./studentRoutes');
+  studentRouter = require('./studentRoutes'),
+  apiRouter = require('./apiRoutes');
 
 // loginを強制
 router.get('/login', usersController.login);
 router.post('/login', usersController.authenticate);
 router.use('/', permissionsController.checkLogin);
 
+router.use('/api', apiRouter);
 router.use('/users', userRouter);
 router.use('/lessons', lessonRouter);
 router.use('/timetables', timetableRouter);

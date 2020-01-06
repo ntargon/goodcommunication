@@ -23,7 +23,7 @@ module.exports = {
 	show: (req, res, next) => {
 		let studentId = req.params.id;
         Student.findById(studentId)
-            .populate('user')
+            .populate(['user', "lessons"])
 			.then(student => {
 				res.locals.student = student;
 				next();

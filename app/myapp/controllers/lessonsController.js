@@ -1,6 +1,7 @@
 'use strict';
 
 const Lesson = require('../models/lesson'),
+    Student = require('../models/student'),
     helpers = require('../helpers');
 
 
@@ -29,9 +30,26 @@ module.exports = {
     indexView: (req, res) => {
         res.render('lessons/index');
     },
+    indexDate: (req, res, next) => {
+        let date = helpers.dateString(req.params.year, req.params.month, req.params.date);
+        Lesson.find({date: date})
+            .then(lessons => {
+                res.locals.lessons = lessons;
+                res.locals.date = date;
+                next();
+            })
+            .catch(error => {
+                console.log(`Error fetching lessons: ${error.message}`);
+                next(error);
+            })
+    },
+    indexDateView: (req, res, next) => {
+        res.render('lessons/indexDate');
+    },
 	show: (req, res, next) => {
 		let lessonId = req.params.id;
-		Lesson.findById(lessonId)
+        Lesson.findById(lessonId)
+            .populate("students")
 			.then(lesson => {
 				res.locals.lesson = lesson;
 				next();
@@ -107,25 +125,125 @@ module.exports = {
 				next();
 			});
     },
-	// authenticate: passport.authenticate("local", {
-	// 	failureRedirect: "/users/login",
-	// 	failureFlash: "Failed to login.",
-	// 	successRedirect: "/",
-	// 	successFlash: "Logged in!"
-    // }),
-    // login: (req, res) => {
-    //     res.render('users/login');
-    // },
-    // checkPermission: (req, res, next) => {
-    //     if(res.locals.loggedIn){
-    //         console.log(res.locals.currentUser._id, req.params.id);
-    //         if(res.locals.currentUser._id.equals(req.params.id)){
-    //             next();
-    //         }else{
-    //             next(new Error("Permission denied"));
-    //         }
-    //     }else{
-    //         res.redirect('/users/login');
-    //     }
-    // }
+    respondJSON: (req, res) => {
+        console.log('json');
+		res.json({
+			status: 200,
+			data: res.locals
+		});
+	},
+    filterStudentLessons: async(req, res, next) => {
+        let studentId = req.query.studentId,
+            currentUser = res.locals.currentUser;
+        try {
+            let student = await Student.findById(studentId);
+            console.log(student);
+            if(!student){
+                console.log("invalid student ID");
+                next();
+            }
+            if(!student.user._id.equals(currentUser._id)){
+                console.log("Error");
+                next();
+            }
+            // console.log('hogeee');
+
+            let mappedLessons = res.locals.lessons.map((lesson) => {
+				let studentRegistered = student.lessons.some((userLesson) => {
+					return userLesson.equals(lesson._id);
+				});
+				return Object.assign(lesson.toObject(), {registered: studentRegistered});
+            });
+            // console.log(mappedLessons);
+			res.locals.lessons = mappedLessons;
+			next();
+
+        } catch (error) {
+            next();
+        }
+    },
+	register: async(req, res, next) => {
+        let studentId = req.query.studentId,
+            lessonId = req.params.id,
+            currentUser = res.locals.currentUser;
+
+        try {
+            let student = await Student.findById(studentId);
+            if(!student){
+                console.log("invalid student ID");
+                // req.flash("error", "invalid student ID");
+                // res.locals.redirect = `/lessons`;
+                next();
+            }
+            if(!student.user._id.equals(currentUser._id)){
+                console.log("Error");
+                // req.flash("error", "error occurred");
+                // res.locals.redirect = `/lessons/${lessonId}`;
+                next();
+            }
+            let lesson = await Lesson.findById(lessonId);
+            if(!lesson){
+                console.log("invalid lesson ID");
+                // req.flash("error", "invalid lesson ID");
+                // res.locals.redirect = `/lessons`;
+                next();
+            }
+            await student.update({
+                $addToSet: {lessons: lesson._id}
+            });
+            await lesson.update({
+                $addToSet: {students: student._id}
+            });
+            // console.log(student);
+            // console.log(lesson);
+            // res.locals.redirect = `/lessons/${lessonId}`;
+            res.locals.success = true;
+            next();
+        } catch (error) {
+            console.log("Error in registering lesson");
+            next(error);
+        }
+    },
+    cancel: async(req, res, next) => {
+        let studentId = req.query.studentId,
+            lessonId = req.params.id,
+            currentUser = res.locals.currentUser;
+
+        try {
+            let student = await Student.findById(studentId);
+            if(!student){
+                console.log("invalid student ID");
+                // req.flash("error", "invalid student ID");
+                // res.locals.redirect = `/lessons`;
+                next();
+            }
+            if(!student.user._id.equals(currentUser._id)){
+                console.log("Error");
+                // req.flash("error", "error occurred");
+                // res.locals.redirect = `/lessons/${lessonId}`;
+                next();
+            }
+            let lesson = await Lesson.findById(lessonId);
+            if(!lesson){
+                console.log("invalid lesson ID");
+                // req.flash("error", "invalid lesson ID");
+                // res.locals.redirect = `/lessons`;
+                next();
+            }
+            await student.update({
+                $pull: {lessons: lesson._id}
+            });
+            await lesson.update({
+                $pull: {students: student._id}
+            });
+            // console.log(student);
+            // console.log(lesson);
+            // res.locals.redirect = `/lessons/${lessonId}`;
+            res.locals.success = true;
+            next();
+        } catch (error) {
+            console.log("Error in registering lesson");
+            next(error);
+        }
+    }
 }

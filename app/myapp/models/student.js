@@ -23,7 +23,8 @@ const mongoose = require('mongoose'),
                 type: Schema.Types.ObjectId,
                 ref: "User",
                 required: true
-            }
+            },
+            lessons: [{type: Schema.Types.ObjectId, ref: "Lesson"}]
         }
     );
 
