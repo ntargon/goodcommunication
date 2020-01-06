@@ -27,7 +27,8 @@ const mongoose = require('mongoose'),
                 type: String,
                 required: true,
                 default: "student"
-            }
+            },
+            students: [{type: Schema.Types.ObjectId, ref: "Student"}]
         }
     );
 

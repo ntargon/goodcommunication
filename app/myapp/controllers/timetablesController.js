@@ -1,7 +1,7 @@
 'use strict';
 
 const Timetable = require('../models/timetable'),
-    helpers = require('../helperss');
+    helpers = require('../helpers');
 
 
 let getTimetableParams = body => {

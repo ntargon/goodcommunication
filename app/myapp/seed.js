@@ -3,7 +3,8 @@
 const mongoose = require("mongoose"),
   User = require("./models/user"),
   Lesson = require('./models/lesson'),
-  Timetable = require('./models/timetable');
+  Timetable = require('./models/timetable'),
+  Student = require('./models/student');
 
   mongoose.connect("mongodb://db:27017/myapp");
   mongoose.connection;
@@ -48,34 +49,54 @@ var users = [
     },
 ]
 
+// STUDENTS
+var students = [
+  {
+    name: {
+      first: "Naoki",
+      last: "Tokunaga"
+    },
+    birthday: "2008/12/12",
+    user: users[0]
+  },
+  {
+    name: {
+      first: "Houki",
+      last: "Tokunaga"
+    },
+    birthday: "2005/12/12",
+    user: users[1]
+  }
+]
+
 // LESSONS
 var lessons = [
   {
     type: "P",
     startTime: "16:30",
     endTime: "17:00",
-    date: "2020:01:01",
+    date: "2020/01/01",
     capacity: 16
   },
   {
     type: "W",
     startTime: "16:30",
     endTime: "17:00",
-    date: "2020:01:01",
+    date: "2020/01/01",
     capacity: 16
   },
   {
     type: "R1",
     startTime: "16:30",
     endTime: "17:00",
-    date: "2020:01:01",
+    date: "2020/01/01",
     capacity: 16
   },
   {
     type: "R2",
     startTime: "16:30",
     endTime: "17:00",
-    date: "2020:01:01",
+    date: "2020/01/01",
     capacity: 16
   }
 ]
@@ -166,3 +187,19 @@ timetables.reduce(
       console.log("Data is empty!");
     })
 );
+
+// students.reduce(
+//   (promiseChain, next) => {
+//     return promiseChain.then(
+//       () =>
+//         new Promise(resolve => {
+//           createModel(Student, next, resolve);
+//         })
+//     );
+//   },
+//   Student.remove({})
+//     .exec()
+//     .then(() => {
+//       console.log("Data is empty!");
+//     })
+// );

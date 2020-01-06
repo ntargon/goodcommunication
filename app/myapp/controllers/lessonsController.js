@@ -1,7 +1,7 @@
 'use strict';
 
 const Lesson = require('../models/lesson'),
-    helpers = require('../helperss');
+    helpers = require('../helpers');
 
 
 let getLessonParams = body => {

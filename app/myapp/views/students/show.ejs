@@ -1,0 +1,12 @@
+<h1>Student</h1>
+<h4>Student Name</h4>
+<%= student.fullName %>
+<h4>Birthday</h4>
+<%= student.birthday %>
+<% if(student.user) { %>
+<p>User: <a href="/users/<%= student.user._id %>"><%= student.user.fullName %></a></p>
+<% } %>
+
+
+<a href="/students/<%= student._id %>/edit">Edit</a>
+<a href="/students/<%= student._id %>/delete?_method=DELETE" onclick="return alert('Are you sure to delete this record?')">Delete</a>

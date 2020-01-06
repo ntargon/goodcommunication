@@ -3,6 +3,10 @@
 <%= user.fullName %>
 <h4>Email</h4>
 <%= user.email %>
+<h4>Students</h4>
+<% user.students.forEach(student => { %>
+    <div><a href="/students/<%= student._id %>"><%= student.fullName %></a></div>
+<% }) %>
 
 
 <% if(currentUser && currentUser._id.equals(user._id)){ %>

@@ -30,7 +30,8 @@ module.exports = {
     },
 	show: (req, res, next) => {
 		let userId = req.params.id;
-		User.findById(userId)
+        User.findById(userId)
+            .populate('students')
 			.then(user => {
 				res.locals.user = user;
 				next();

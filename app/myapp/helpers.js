@@ -2,7 +2,7 @@
 
 module.exports = {
     dateDigits: (str) => {
-        let items = str.split(':');
+        let items = str.split('/');
         return {y: items[0], m: items[1], d: items[2]};
     },
     timeDigits: (str) => {
@@ -14,6 +14,6 @@ module.exports = {
         return ("00"+h).slice(-2) + ":" + ("00"+m).slice(-2);
     },
     dateString: (y,m,d) => {
-        return [("0000"+y).slice(-4), ("00"+m).slice(-2), ("00"+d).slice(-2)].join(':');
+        return [("0000"+y).slice(-4), ("00"+m).slice(-2), ("00"+d).slice(-2)].join('/');
     }
 }

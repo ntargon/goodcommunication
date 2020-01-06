@@ -13,13 +13,24 @@ const mongoose = require('mongoose'),
                 last: {
                     type: String,
                     required: true
-                },
-                birthday: {
-                    type: String,
-                    required: true
                 }
+            },
+            birthday: {
+                type: String,
+                required: true
+            },
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required: true
             }
         }
     );
+
+studentSchema.virtual("fullName")
+	.get(function() {
+		return `${this.name.first} ${this.name.last}`;
+	});
+
 
 module.exports = mongoose.model('Student', studentSchema);
